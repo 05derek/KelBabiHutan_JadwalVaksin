@@ -23,19 +23,20 @@ namespace WindowsFormsApp1
         private string connectionString = "Server=DEREK-PC\\DEREKGANTENG;Database=BookingVaksinDB;Trusted_Connection=True;";
         public Form6(int bookingId, int userId)
         {
-           
-        }
-
-        
-
-        private void Form6_Load(object sender, EventArgs e)
-        {
             InitializeComponent();
             this.bookingId = bookingId;
             this.userId = userId;
 
             // Daftarkan event Load
             this.Load += Form6_Load;
+        }
+
+        
+
+        private void Form6_Load(object sender, EventArgs e)
+        {
+            // Ambil detail data booking saat form terbuka
+            LoadData();
         }
         private void LoadData()
         {
