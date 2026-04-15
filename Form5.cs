@@ -82,8 +82,27 @@ namespace WindowsFormsApp1
         // Tombol Edit / Reschedule
         private void button4_Click(object sender, EventArgs e)
         {
-            
-        }
+            if (dgvbooking.CurrentRow == null)
+            {
+                MessageBox.Show("Silahkan pilih data booking yang ingin diubah!", "Peringatan", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return;
+            }
+
+            try
+            {
+                // Mengambil ID Booking dari baris yang dipilih
+                int bId = Convert.ToInt32(dgvbooking.CurrentRow.Cells["ID Booking"].Value);
+
+                // Membuka Form 6 sebagai dialog modal
+                Form6 f6 = new Form6(bId, this.userId);
+
+                // Jika proses di Form 6 mengembalikan DialogResult.OK (berhasil update)
+                if (f6.ShowDialog() == DialogResult.OK)
+                {
+                    // Update data di tabel secara otomatis
+                    LoadData();
+                }
+            }
         
         
 
