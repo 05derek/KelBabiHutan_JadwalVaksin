@@ -31,7 +31,7 @@ namespace WindowsFormsApp1
             this.Load += Form6_Load;
         }
 
-        
+
 
         private void Form6_Load(object sender, EventArgs e)
         {
@@ -73,12 +73,14 @@ namespace WindowsFormsApp1
                         }
 
                     }
+                }
 
-                    catch (Exception ex)
+                catch (Exception ex)
                 {
                     MessageBox.Show("Gagal memuat detail data: " + ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 }
             }
+        }
 
 
 
@@ -87,12 +89,66 @@ namespace WindowsFormsApp1
 
         private void button1_Click(object sender, EventArgs e)
         {
-           
-        }
-
-     
-                }
+            // Validasi input: Pastikan Jadwal ID baru sudah diisi
+            if (string.IsNullOrWhiteSpace(textBox3.Text))
+            {
+                MessageBox.Show("Silahkan isi Jadwal ID baru!", "Peringatan", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return;
             }
+
+            using (SqlConnection conn = new SqlConnection(connectionString))
+            {
+                try
+                {
+                    conn.Open();
+
+                    // Query UPDATE
+                    string query = "UPDATE Booking SET jadwal_id = @Jid WHERE booking_id = @Bid";
+
+                    using (SqlCommand cmd = new SqlCommand(query, conn))
+                    {
+                        cmd.Parameters.AddWithValue("@Jid", textBox3.Text);
+                        cmd.Parameters.AddWithValue("@Bid", this.bookingId);
+
+                        int rowsAffected = cmd.ExecuteNonQuery();
+
+                        if (rowsAffected > 0)
+                        {
+                            MessageBox.Show("Jadwal Berhasil Diperbarui!", "Sukses", MessageBoxButtons.OK, MessageBoxIcon.Information);
+
+                            // Mengirim sinyal OK agar Form5 tahu harus me-refresh data
+                            this.DialogResult = DialogResult.OK;
+                            this.Close();
+                        }
+                        else
+                        {
+                            MessageBox.Show("Gagal memperbarui: ID Booking tidak ditemukan di sistem.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                        }
+                    }
+                }
+                catch (SqlException ex)
+                {
+                    // Menangkap error Foreign Key (ID Jadwal tidak ada di tabel Jadwal)
+                    if (ex.Number == 547)
+                    {
+                        MessageBox.Show("Error: ID Jadwal yang kamu masukkan tidak terdaftar di sistem!", "Kesalahan Input", MessageBoxButtons.OK, MessageBoxIcon.Stop);
+                    }
+                    else
+                    {
+                        MessageBox.Show("Error SQL: " + ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    }
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show("Terjadi kesalahan: " + ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
+
+            }
+
+
+        }
+    }
+}
 
                 
 
