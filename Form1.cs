@@ -109,7 +109,11 @@ namespace WindowsFormsApp1
 
         private void ClearForm()
         {
-           
+            textBox1.Clear();
+            textBox2.Clear();
+            textBox3.Clear();
+            textBox4.Clear();
+            textBox5.Clear();
         }
     }
 }
