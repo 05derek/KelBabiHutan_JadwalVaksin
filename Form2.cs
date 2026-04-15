@@ -19,12 +19,13 @@ namespace WindowsFormsApp1
 
         public Form2()
         {
-            
+            InitializeComponent();
         }
 
         private void Koneksi()
         {
-            
+            conn = new SqlConnection("Server=DEREK-PC\\DEREKGANTENG;Database=BookingVaksinDB;Trusted_Connection=True;");
+            conn.Open();
         }
 
         // Ganti isi button1_Click pada Form2 Anda menjadi seperti ini:
