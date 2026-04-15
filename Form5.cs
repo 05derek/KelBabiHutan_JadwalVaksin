@@ -54,6 +54,11 @@ namespace WindowsFormsApp1
                     // Pengaturan tampilan Grid otomatis
                     SetupDataGridView();
                 }
+                catch (Exception ex)
+                {
+                    MessageBox.Show("Error saat memuat data: " + ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
+            }
         }
         private void SetupDataGridView()
         {
