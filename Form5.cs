@@ -12,7 +12,10 @@ namespace WindowsFormsApp1
         private string connectionString = "Server=DEREK-PC\\DEREKGANTENG;Database=BookingVaksinDB;Trusted_Connection=True;";
         public Form5(int id)
         {
-           
+            InitializeComponent();
+            this.userId = id;
+            // Pastikan event Load terhubung
+            this.Load += Form5_Load;
         }
 
         private void Form5_Load(object sender, EventArgs e)
