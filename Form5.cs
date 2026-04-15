@@ -103,8 +103,14 @@ namespace WindowsFormsApp1
                     LoadData();
                 }
             }
-        
-        
+            catch (Exception ex)
+            {
+                MessageBox.Show("Gagal memproses data: " + ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
+
+
+
 
 
         private void dgvbooking_CellContentClick(object sender, DataGridViewCellEventArgs e)
