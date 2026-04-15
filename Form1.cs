@@ -45,7 +45,58 @@ namespace WindowsFormsApp1
 
         private void button1_Click(object sender, EventArgs e)
         {
-           
+            // 1. Validasi Input (Lengkapi Profil)
+            if (string.IsNullOrWhiteSpace(textBox1.Text) || string.IsNullOrWhiteSpace(textBox2.Text))
+            {
+                MessageBox.Show("NIK dan Nama wajib diisi!");
+                return;
+            }
+
+            try
+            {
+                Koneksi(); // Memanggil fungsi koneksi yang sudah Anda buat
+
+                // 2. Sesuaikan Query dengan tabel 'Users' yang baru Anda buat
+                // Kita mendaftarkan user baru sebagai 'pasien' secara default
+                string query = @"INSERT INTO Users (nik, nama, no_hp, username, password, role) 
+                         VALUES (@NIK, @Nama, @NoHP, @Username, @Password, 'pasien')";
+
+                using (SqlCommand cmd = new SqlCommand(query, conn))
+                {
+                    // Menyesuaikan parameter dengan nama kolom di database baru
+                    cmd.Parameters.AddWithValue("@NIK", textBox1.Text);      // NIK
+                    cmd.Parameters.AddWithValue("@Nama", textBox2.Text);     // Nama
+                    cmd.Parameters.AddWithValue("@NoHP", textBox3.Text);     // No HP
+                    cmd.Parameters.AddWithValue("@Username", textBox4.Text); // Username
+                    cmd.Parameters.AddWithValue("@Password", textBox5.Text); // Password
+
+                    int result = cmd.ExecuteNonQuery();
+
+                    // Di dalam Form1.cs bagian button1_Click
+                    if (result > 0)
+                    {
+                        MessageBox.Show("Registrasi Pasien Berhasil!");
+                        ClearForm();
+
+                        // PINDAH KE FORM LOGIN
+                        Form2 loginForm = new Form2();
+                        loginForm.Show();
+                        this.Hide(); // Sembunyikan form registrasi
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                // Menampilkan pesan error yang lebih spesifik jika NIK atau Username sudah ada (Unique Constraint)
+                MessageBox.Show("Gagal Registrasi: " + ex.Message);
+            }
+            finally
+            {
+                if (conn != null && conn.State == ConnectionState.Open)
+                {
+                    conn.Close();
+                }
+            }
 
         }
 
