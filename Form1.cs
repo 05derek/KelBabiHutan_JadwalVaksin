@@ -102,7 +102,9 @@ namespace WindowsFormsApp1
 
         private void button2_Click(object sender, EventArgs e)
         {
-            
+            Form2 loginForm = new Form2();
+            loginForm.Show();
+            this.Hide();
         }
 
         private void ClearForm()
