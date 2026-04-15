@@ -23,7 +23,15 @@ namespace WindowsFormsApp1
 
         private void button1_Click(object sender, EventArgs e)
         {
-           
+            if (userId == 0)
+            {
+                MessageBox.Show("User ID tidak valid.");
+                return;
+            }
+
+            Form5 f5 = new Form5(userId);
+            f5.Show();
+            this.Hide(); // Opsional: sembunyikan Form3 saat Form5 terbuka
         }
     }
 }
