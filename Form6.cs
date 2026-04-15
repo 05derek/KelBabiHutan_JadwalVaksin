@@ -67,8 +67,14 @@ namespace WindowsFormsApp1
                             // Jika kamu punya label tambahan untuk info tanggal/waktu
                             // lblInfo.Text = $"Jadwal saat ini: {reader["tanggal"]} jam {reader["waktu"]}";
                         }
-
+                        else
+                        {
+                            MessageBox.Show("Data booking tidak ditemukan!", "Peringatan", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                        }
                     }
+
+                    
+                
 
 
         private void button1_Click(object sender, EventArgs e)
