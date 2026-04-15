@@ -17,6 +17,8 @@ namespace WindowsFormsApp1
         // Constructor that accepts user_id as a parameter
         public Form3(int userId)
         {
+            InitializeComponent();
+            this.userId = userId; // Assign the passed user_id to the field
         }
 
         private void button1_Click(object sender, EventArgs e)
