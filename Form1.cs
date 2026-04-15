@@ -19,12 +19,13 @@ namespace WindowsFormsApp1
 
         public Form1()
         {
-            
+            InitializeComponent();
         }
 
         private void Koneksi()
         {
-            
+            conn = new SqlConnection("Server=DEREK-PC\\DEREKGANTENG;Database=BookingVaksinDB;Trusted_Connection=True;"); // Initialize the connection
+            conn.Open();
         }
 
         private void label1_Click(object sender, EventArgs e)
