@@ -30,7 +30,12 @@ namespace WindowsFormsApp1
 
         private void Form6_Load(object sender, EventArgs e)
         {
-            
+            InitializeComponent();
+            this.bookingId = bookingId;
+            this.userId = userId;
+
+            // Daftarkan event Load
+            this.Load += Form6_Load;
         }
         private void LoadData()
         {
