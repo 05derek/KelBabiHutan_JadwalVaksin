@@ -71,10 +71,18 @@ namespace WindowsFormsApp1
                         {
                             MessageBox.Show("Data booking tidak ditemukan!", "Peringatan", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                         }
+
                     }
 
-                    
-                
+                    catch (Exception ex)
+                {
+                    MessageBox.Show("Gagal memuat detail data: " + ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
+            }
+
+
+
+
 
 
         private void button1_Click(object sender, EventArgs e)
