@@ -79,7 +79,9 @@ namespace WindowsFormsApp1
         
         private void button2_Click(object sender, EventArgs e)
         {
-           
+            Form1 regisForm = new Form1();
+            regisForm.Show();
+            this.Hide();
         }
     }
 }
