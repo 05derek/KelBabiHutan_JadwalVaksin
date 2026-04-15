@@ -25,7 +25,35 @@ namespace WindowsFormsApp1
 
         private void LoadData()
         {
-            
+            using (SqlConnection conn = new SqlConnection(connectionString))
+            {
+                try
+                {
+                    conn.Open();
+                    // Query JOIN untuk mengambil detail tanggal dan waktu dari tabel Jadwal
+                    string query = @"
+                        SELECT 
+                            b.booking_id AS [ID Booking], 
+                            j.tanggal AS [Tanggal], 
+                            j.waktu AS [Waktu],
+                            b.status AS [Status]
+                        FROM Booking b
+                        INNER JOIN Jadwal j ON b.jadwal_id = j.jadwal_id
+                        WHERE b.user_id = @UserId";
+
+                    SqlDataAdapter da = new SqlDataAdapter(query, conn);
+                    da.SelectCommand.Parameters.AddWithValue("@UserId", this.userId);
+
+                    DataTable dt = new DataTable();
+                    da.Fill(dt);
+
+                    // Refresh DataSource
+                    dgvbooking.DataSource = null;
+                    dgvbooking.DataSource = dt;
+
+                    // Pengaturan tampilan Grid otomatis
+                    SetupDataGridView();
+                }
         }
         private void SetupDataGridView()
         {
