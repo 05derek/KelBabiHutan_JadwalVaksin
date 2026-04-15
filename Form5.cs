@@ -62,7 +62,19 @@ namespace WindowsFormsApp1
         }
         private void SetupDataGridView()
         {
-           
+            if (dgvbooking.Columns.Count > 0)
+            {
+                // Sembunyikan ID Booking agar tidak membingungkan user, tapi tetap bisa diakses kode
+                if (dgvbooking.Columns["ID Booking"] != null)
+                    dgvbooking.Columns["ID Booking"].Visible = false;
+
+                // Membuat kolom mengisi seluruh area DataGridView
+                dgvbooking.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
+                dgvbooking.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
+                dgvbooking.MultiSelect = false;
+                dgvbooking.AllowUserToAddRows = false;
+                dgvbooking.ReadOnly = true;
+            }
         }
 
 
