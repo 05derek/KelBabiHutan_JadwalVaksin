@@ -11,7 +11,8 @@ namespace UCP_1_Revisi
 
         public FormAwal()
         {
-            
+            InitializeComponent();
+            textBox2.UseSystemPasswordChar = true;
         }
 
         private void textBox2_TextChanged(object sender, EventArgs e)
