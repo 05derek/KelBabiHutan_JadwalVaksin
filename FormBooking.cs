@@ -210,7 +210,38 @@ namespace UCP_1_Revisi
                 SqlCommand cmd =
                     new SqlCommand(query, conn);
 
-             
+                cmd.Parameters.AddWithValue(
+                    "@vaksin",
+                    comboBoxVaksin.SelectedValue);
+
+                cmd.Parameters.AddWithValue(
+                    "@tanggal",
+                    dateTimePicker.Value.Date);
+
+                cmd.Parameters.AddWithValue(
+                    "@waktu",
+                    comboBoxWaktu.Text);
+
+                cmd.Parameters.AddWithValue(
+                    "@id",
+                    selectedId);
+
+                cmd.ExecuteNonQuery();
+                cmd.ExecuteScalar();
+
+                MessageBox.Show(
+                    "Jadwal berhasil diupdate!");
+
+                tampilData();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+            }
+            finally
+            {
+                conn.Close();
+            }
         }
 
         private void btnHapus_Click(object sender, EventArgs e)
