@@ -22,11 +22,18 @@ namespace UCP_1_Revisi
 
         private void btnDaftar_Click(object sender, EventArgs e)
         {
+            SqlConnection conn =
+            new SqlConnection(koneksi);
+
+            FormSignUp daftar = new FormSignUp();
+            daftar.Show();
+
+            this.Hide();
         }
 
         private void btnLogin_Click(object sender, EventArgs e)
         {
-            
+            using (SqlConnection conn = new SqlConnection(koneksi))
             
         }
     }
