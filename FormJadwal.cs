@@ -30,7 +30,12 @@ namespace UCP_1_Revisi
 
         private void FormJadwal_Load(object sender, EventArgs e)
         {
-          
+            
+            bn = new BindingNavigator(true);
+            this.Controls.Add(bn);
+            bn.BindingSource = bsJadwal;
+
+            tampilData();
         }
         
         //test
