@@ -25,128 +25,44 @@ namespace UCP_1_Revisi
 
         public FormJadwal()
         {
-            InitializeComponent();
+
         }
 
         private void FormJadwal_Load(object sender, EventArgs e)
         {
-            // Setup BindingNavigator secara manual karena .NET 8 tidak memunculkannya di Toolbox
-            bn = new BindingNavigator(true);
-            this.Controls.Add(bn);
-            bn.BindingSource = bsJadwal;
-
-            tampilData();
+          
         }
-
+        
+        //test
         private void tampilData()
         {
-            using (SqlConnection conn = new SqlConnection(koneksi))
-            {
-                try
-                {
-                    // Query ini menghubungkan tabel jadwal dengan tabel vaksin
-                    // v.nama_vaksin akan selalu mengambil data terbaru dari formVaksin
-                    string query = @"SELECT j.jadwal_id, v.nama_vaksin, j.tanggal, j.waktu, j.kuota 
-                             FROM jadwal j 
-                             INNER JOIN vaksin v ON j.vaksin_id = v.vaksin_id";
-
-                    SqlDataAdapter da = new SqlDataAdapter(query, conn);
-                    DataTable dt = new DataTable();
-                    da.Fill(dt);
-
-                    bsJadwal.DataSource = dt;
-                    dataGridView1.DataSource = bsJadwal;
-                }
-                catch (Exception ex)
-                {
-                    MessageBox.Show("Error: " + ex.Message);
-                }
-            }
         }
 
-        // --- TOMBOL TAMBAH ---
+       
         private void button1_Click(object sender, EventArgs e)
         {
-            using (SqlConnection conn = new SqlConnection(koneksi))
-            {
-                // Tambahkan kolom vaksin_id dalam query insert
-                string query = "INSERT INTO jadwal (tanggal, waktu, kuota, vaksin_id) VALUES (@tgl, @waktu, @kuota, @v_id)";
-                SqlCommand cmd = new SqlCommand(query, conn);
-                cmd.Parameters.AddWithValue("@tgl", dateTimePicker1.Value);
-                cmd.Parameters.AddWithValue("@waktu", comboBox1.Text);
-                cmd.Parameters.AddWithValue("@kuota", textBox1.Text);
-
-                
-                conn.Open();
-                MessageBox.Show("Jadwal Berhasil Ditambahkan!");
-                tampilData();
-            }
+           
         }
 
-        // --- TOMBOL UPDATE ---
+       
         private void button2_Click(object sender, EventArgs e)
         {
-            if (bsJadwal.Current == null) return;
-
-            // Pastikan perubahan di UI masuk ke BindingSource
-            bsJadwal.EndEdit();
-
-            DataRowView row = (DataRowView)bsJadwal.Current;
-            int id = (int)row["jadwal_id"];
-
-            using (SqlConnection conn = new SqlConnection(koneksi))
-            {
-                string query = "UPDATE jadwal SET tanggal=@tgl, waktu=@waktu, kuota=@kuota WHERE jadwal_id=@id";
-                SqlCommand cmd = new SqlCommand(query, conn);
-                cmd.Parameters.AddWithValue("@tgl", dateTimePicker1.Value);
-                cmd.Parameters.AddWithValue("@waktu", comboBox1.Text);
-                cmd.Parameters.AddWithValue("@kuota", textBox1.Text);
-                cmd.Parameters.AddWithValue("@id", id);
-
-                conn.Open();
-                cmd.ExecuteNonQuery();
-                MessageBox.Show("Data berhasil diupdate!");
-
-                tampilData(); // Refresh grid
-            }
+            
         }
 
         private void button3_Click(object sender, EventArgs e)
         {
-            if (bsJadwal.Current == null) return;
-
-            if (MessageBox.Show("Hapus data ini?", "Konfirmasi", MessageBoxButtons.YesNo) == DialogResult.Yes)
-            {
-                DataRowView row = (DataRowView)bsJadwal.Current;
-                int id = (int)row["jadwal_id"];
-
-                using (SqlConnection conn = new SqlConnection(koneksi))
-                {
-                    string query = "DELETE FROM jadwal WHERE jadwal_id=@id";
-                    SqlCommand cmd = new SqlCommand(query, conn);
-                    cmd.Parameters.AddWithValue("@id", id);
-
-                    conn.Open();
-                    cmd.ExecuteNonQuery();
-                    tampilData();
-                }
-            }
+           
         }
 
         private void dataGridView1_CellContentClick(object sender, DataGridViewCellEventArgs e)
         {
-            // Memastikan baris yang diklik bukan header
-            if (e.RowIndex >= 0)
-            {
-                // Secara otomatis bsJadwal akan pindah posisi ke baris ini
-                // karena DataGridView terhubung ke bsJadwal
-                dataGridView1.Rows[e.RowIndex].Selected = true;
-            }
+          
         }
 
         private void FormJadwal_Activated(object sender, EventArgs e)
         {
-            tampilData();
+         
         }
     }
 }

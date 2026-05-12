@@ -14,7 +14,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("UCP 1 Revisi")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+56dff55987f2a71bc35cf844aa1a5795649801f9")]
 [assembly: System.Reflection.AssemblyProductAttribute("UCP 1 Revisi")]
 [assembly: System.Reflection.AssemblyTitleAttribute("UCP 1 Revisi")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]
