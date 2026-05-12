@@ -46,7 +46,42 @@ namespace UCP_1_Revisi
 
         private void tampilVaksin()
         {
-           
+            SqlConnection conn =
+                new SqlConnection(koneksi);
+
+            try
+            {
+                conn.Open();
+
+                string query =
+                    "SELECT * FROM vaksin";
+
+                SqlDataAdapter da =
+                    new SqlDataAdapter(query, conn);
+
+                DataTable dt =
+                    new DataTable();
+
+                da.Fill(dt);
+
+                MessageBox.Show(dt.Rows.Count.ToString());
+
+                comboBoxVaksin.DataSource = dt;
+
+                comboBoxVaksin.DisplayMember =
+                    "nama_vaksin";
+
+                comboBoxVaksin.ValueMember =
+                    "vaksin_id";
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+            }
+            finally
+            {
+                conn.Close();
+            }
         }
 
         private void tampilData()
