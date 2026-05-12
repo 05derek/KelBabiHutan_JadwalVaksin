@@ -321,7 +321,10 @@ namespace UCP_1_Revisi
 
         private void btnBack_Click(object sender, EventArgs e)
         {
-           
+            FormAwal awal = new FormAwal();
+            awal.Show();
+
+            this.Hide();
         }
 
         private void FormBooking_Load(object sender, EventArgs e)
@@ -331,7 +334,27 @@ namespace UCP_1_Revisi
 
         private void btninjection_Click(object sender, EventArgs e)
         {
-           
+            try
+            {
+                using (SqlConnection conn = new SqlConnection(koneksi))
+                {
+                    conn.Open();
+                    // TAHAP 1: Membuat Query TIDAK AMAN (Sesuai Langkah 10 modul)
+                    // Query ini rentan karena menggabungkan input teks langsung ke string SQL
+                    string query = "UPDATE jadwal SET kuota = 999 WHERE jadwal_id = " + selectedId;
+
+                    using (SqlCommand cmd = new SqlCommand(query, conn))
+                    {
+                        int result = cmd.ExecuteNonQuery();
+                        MessageBox.Show(result + " baris berhasil diubah (Simulasi Injection)");
+                    }
+                }
+                tampilData();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Error Simulasi: " + ex.Message);
+            }
         }
     }
 }
