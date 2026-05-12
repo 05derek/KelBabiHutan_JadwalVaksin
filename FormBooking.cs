@@ -125,7 +125,26 @@ namespace UCP_1_Revisi
 
         private void btnSimpan_Click(object sender, EventArgs e)
         {
-           
+            SqlConnection conn =
+        new SqlConnection(koneksi);
+
+            try
+            {
+                conn.Open();
+
+                string query =
+                    "INSERT INTO jadwal " +
+                    "(vaksin_id, tanggal, waktu, kuota) " +
+                    "VALUES " +
+                    "(@vaksin, @tanggal, @waktu, @kuota)";
+
+                SqlCommand cmd =
+                    new SqlCommand(query, conn);
+
+                cmd.Parameters.AddWithValue(
+                    "@vaksin",
+                    comboBoxVaksin.SelectedValue);
+
 
 
         }
