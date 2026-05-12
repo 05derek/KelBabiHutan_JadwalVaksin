@@ -19,7 +19,10 @@ namespace UCP_1_Revisi
 
         private void button1_Click(object sender, EventArgs e)
         {
-           
+            FormJadwal jadwal = new FormJadwal();
+            jadwal.Show();
+
+            this.Hide();
         }
 
         private void button2_Click(object sender, EventArgs e)
