@@ -114,7 +114,24 @@ namespace UCP_1_Revisi
 
         private void button3_Click(object sender, EventArgs e)
         {
-           
+            if (bsJadwal.Current == null) return;
+
+            if (MessageBox.Show("Hapus data ini?", "Konfirmasi", MessageBoxButtons.YesNo) == DialogResult.Yes)
+            {
+                DataRowView row = (DataRowView)bsJadwal.Current;
+                int id = (int)row["jadwal_id"];
+
+                using (SqlConnection conn = new SqlConnection(koneksi))
+                {
+                    string query = "DELETE FROM jadwal WHERE jadwal_id=@id";
+                    SqlCommand cmd = new SqlCommand(query, conn);
+                    cmd.Parameters.AddWithValue("@id", id);
+
+                    conn.Open();
+                    cmd.ExecuteNonQuery();
+                    tampilData();
+                }
+            }
         }
 
         private void dataGridView1_CellContentClick(object sender, DataGridViewCellEventArgs e)
