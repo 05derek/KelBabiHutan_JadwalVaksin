@@ -136,17 +136,18 @@ namespace UCP_1_Revisi
 
         private void dataGridView1_CellContentClick(object sender, DataGridViewCellEventArgs e)
         {
-           
+            // Memastikan baris yang diklik bukan header
             if (e.RowIndex >= 0)
             {
-              
+                // Secara otomatis bsJadwal akan pindah posisi ke baris ini
+                // karena DataGridView terhubung ke bsJadwal
                 dataGridView1.Rows[e.RowIndex].Selected = true;
             }
         }
 
         private void FormJadwal_Activated(object sender, EventArgs e)
         {
-         
+            tampilData();
         }
     }
 }
