@@ -183,7 +183,34 @@ namespace UCP_1_Revisi
 
         private void btnUpdate_Click(object sender, EventArgs e)
         {
-            
+            bsJadwal.EndEdit();
+
+            if (selectedId == 0)
+            {
+                MessageBox.Show(
+                    "Pilih data terlebih dahulu!");
+
+                return;
+            }
+
+            SqlConnection conn =
+                new SqlConnection(koneksi);
+
+            try
+            {
+                conn.Open();
+
+                string query =
+                    "UPDATE jadwal " +
+                    "SET vaksin_id = @vaksin, " +
+                    "tanggal = @tanggal, " +
+                    "waktu = @waktu " +
+                    "WHERE jadwal_id = @id";
+
+                SqlCommand cmd =
+                    new SqlCommand(query, conn);
+
+             
         }
 
         private void btnHapus_Click(object sender, EventArgs e)
