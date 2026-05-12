@@ -27,7 +27,10 @@ namespace UCP_1_Revisi
 
         private void button2_Click(object sender, EventArgs e)
         {
-          
+            FormVaksin vaksin = new FormVaksin();
+            vaksin.Show();
+
+            this.Hide();
         }
     }
 }
