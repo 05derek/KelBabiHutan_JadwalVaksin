@@ -145,6 +145,33 @@ namespace UCP_1_Revisi
                     "@vaksin",
                     comboBoxVaksin.SelectedValue);
 
+                cmd.Parameters.AddWithValue(
+                    "@tanggal",
+                    dateTimePicker.Value.Date);
+
+                cmd.Parameters.AddWithValue(
+                    "@waktu",
+                    comboBoxWaktu.Text);
+
+                cmd.Parameters.AddWithValue(
+                    "@kuota",
+                    25);
+
+                cmd.ExecuteNonQuery();
+
+                MessageBox.Show(
+                    "Jadwal berhasil ditambahkan!");
+
+                tampilData();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+            }
+            finally
+            {
+                conn.Close();
+            }
 
 
         }
