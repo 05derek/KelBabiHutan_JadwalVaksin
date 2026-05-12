@@ -65,10 +65,23 @@ namespace UCP_1_Revisi
             }
         }
 
-       
+        // --- TOMBOL TAMBAH ---
         private void button1_Click(object sender, EventArgs e)
         {
-           
+            using (SqlConnection conn = new SqlConnection(koneksi))
+            {
+                // Tambahkan kolom vaksin_id dalam query insert
+                string query = "INSERT INTO jadwal (tanggal, waktu, kuota, vaksin_id) VALUES (@tgl, @waktu, @kuota, @v_id)";
+                SqlCommand cmd = new SqlCommand(query, conn);
+                cmd.Parameters.AddWithValue("@tgl", dateTimePicker1.Value);
+                cmd.Parameters.AddWithValue("@waktu", comboBox1.Text);
+                cmd.Parameters.AddWithValue("@kuota", textBox1.Text);
+
+                
+                conn.Open();
+                MessageBox.Show("Jadwal Berhasil Ditambahkan!");
+                tampilData();
+            }
         }
 
        
