@@ -86,7 +86,41 @@ namespace UCP_1_Revisi
 
         private void tampilData()
         {
-           
+            SqlConnection conn = new SqlConnection(koneksi);
+            try
+            {
+                // Pindahkan pembuatan BindingNavigator ke Form_Load agar tidak double saat refresh data
+                // bn.BindingSource = bsJadwal;
+
+                conn.Open();
+                string query = "SELECT jadwal.jadwal_id, jadwal.vaksin_id, vaksin.nama_vaksin, " +
+                               "jadwal.tanggal, jadwal.waktu, jadwal.kuota FROM jadwal " +
+                               "JOIN vaksin ON jadwal.vaksin_id = vaksin.vaksin_id";
+
+                SqlDataAdapter da = new SqlDataAdapter(query, conn);
+                DataTable dt = new DataTable();
+                da.Fill(dt);
+
+                bsJadwal.DataSource = dt;
+                dataGridView1.DataSource = bsJadwal;
+
+                // Bersihkan binding sebelum menambah yang baru
+                comboBoxWaktu.DataBindings.Clear();
+                dateTimePicker.DataBindings.Clear();
+                comboBoxVaksin.DataBindings.Clear();
+
+                // PERBAIKAN DI SINI:
+                // Gunakan "Text" untuk ComboBox yang isinya manual
+                comboBoxWaktu.DataBindings.Add("Text", bsJadwal, "waktu", true, DataSourceUpdateMode.OnPropertyChanged);
+
+                // Pastikan format tanggal sesuai
+                dateTimePicker.DataBindings.Add("Value", bsJadwal, "tanggal", true, DataSourceUpdateMode.OnPropertyChanged);
+
+                // Untuk comboBoxVaksin, pastikan DataSource-nya (daftar nama vaksin) sudah di-set sebelumnya
+                comboBoxVaksin.DataBindings.Add("SelectedValue", bsJadwal, "vaksin_id", true, DataSourceUpdateMode.OnPropertyChanged);
+            }
+            catch (Exception ex) { MessageBox.Show("Error Binding: " + ex.Message); }
+            finally { conn.Close(); }
         }
 
         private void btnSimpan_Click(object sender, EventArgs e)
