@@ -291,7 +291,27 @@ namespace UCP_1_Revisi
 
         private void dataGridView1_CellContentClick(object sender, DataGridViewCellEventArgs e)
         {
+            if (e.RowIndex >= 0)
+            {
+                DataGridViewRow row =
+                    dataGridView1.Rows[e.RowIndex];
 
+                selectedId =
+                    Convert.ToInt32(
+                    row.Cells["jadwal_id"].Value);
+
+                comboBoxVaksin.Text =
+                    row.Cells["nama_vaksin"]
+                    .Value.ToString();
+
+                dateTimePicker.Value =
+                    Convert.ToDateTime(
+                    row.Cells["tanggal"].Value);
+
+                comboBoxWaktu.Text =
+                    row.Cells["waktu"]
+                    .Value.ToString();
+            }
         }
 
         private void comboBoxWaktu_SelectedIndexChanged(object sender, EventArgs e)
