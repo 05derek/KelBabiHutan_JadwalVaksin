@@ -136,7 +136,12 @@ namespace UCP_1_Revisi
 
         private void dataGridView1_CellContentClick(object sender, DataGridViewCellEventArgs e)
         {
-          
+           
+            if (e.RowIndex >= 0)
+            {
+              
+                dataGridView1.Rows[e.RowIndex].Selected = true;
+            }
         }
 
         private void FormJadwal_Activated(object sender, EventArgs e)
