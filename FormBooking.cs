@@ -246,7 +246,47 @@ namespace UCP_1_Revisi
 
         private void btnHapus_Click(object sender, EventArgs e)
         {
-           
+            if (selectedId == 0)
+            {
+                MessageBox.Show(
+                    "Pilih data terlebih dahulu!");
+
+                return;
+            }
+
+            SqlConnection conn =
+                new SqlConnection(koneksi);
+
+            try
+            {
+                conn.Open();
+
+                string query =
+                    "DELETE FROM jadwal " +
+                    "WHERE jadwal_id = @id";
+
+                SqlCommand cmd =
+                    new SqlCommand(query, conn);
+
+                cmd.Parameters.AddWithValue(
+                    "@id",
+                    selectedId);
+
+                cmd.ExecuteNonQuery();
+
+                MessageBox.Show(
+                    "Jadwal berhasil dihapus!");
+
+                tampilData();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+            }
+            finally
+            {
+                conn.Close();
+            }
         }
 
         private void dataGridView1_CellContentClick(object sender, DataGridViewCellEventArgs e)
