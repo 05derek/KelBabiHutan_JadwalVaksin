@@ -30,7 +30,7 @@ namespace UCP_1_Revisi
 
         private void FormJadwal_Load(object sender, EventArgs e)
         {
-            
+            // Setup BindingNavigator secara manual karena .NET 8 tidak memunculkannya di Toolbox
             bn = new BindingNavigator(true);
             this.Controls.Add(bn);
             bn.BindingSource = bsJadwal;
@@ -41,6 +41,28 @@ namespace UCP_1_Revisi
         //test
         private void tampilData()
         {
+            using (SqlConnection conn = new SqlConnection(koneksi))
+            {
+                try
+                {
+                    // Query ini menghubungkan tabel jadwal dengan tabel vaksin
+                    // v.nama_vaksin akan selalu mengambil data terbaru dari formVaksin
+                    string query = @"SELECT j.jadwal_id, v.nama_vaksin, j.tanggal, j.waktu, j.kuota 
+                             FROM jadwal j 
+                             INNER JOIN vaksin v ON j.vaksin_id = v.vaksin_id";
+
+                    SqlDataAdapter da = new SqlDataAdapter(query, conn);
+                    DataTable dt = new DataTable();
+                    da.Fill(dt);
+
+                    bsJadwal.DataSource = dt;
+                    dataGridView1.DataSource = bsJadwal;
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show("Error: " + ex.Message);
+                }
+            }
         }
 
        
