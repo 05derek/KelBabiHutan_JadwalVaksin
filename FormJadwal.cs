@@ -25,7 +25,7 @@ namespace UCP_1_Revisi
 
         public FormJadwal()
         {
-
+            InitializeComponent();
         }
 
         private void FormJadwal_Load(object sender, EventArgs e)
