@@ -84,10 +84,32 @@ namespace UCP_1_Revisi
             }
         }
 
-       
+        // --- TOMBOL UPDATE ---
         private void button2_Click(object sender, EventArgs e)
         {
-            
+            if (bsJadwal.Current == null) return;
+
+            // Pastikan perubahan di UI masuk ke BindingSource
+            bsJadwal.EndEdit();
+
+            DataRowView row = (DataRowView)bsJadwal.Current;
+            int id = (int)row["jadwal_id"];
+
+            using (SqlConnection conn = new SqlConnection(koneksi))
+            {
+                string query = "UPDATE jadwal SET tanggal=@tgl, waktu=@waktu, kuota=@kuota WHERE jadwal_id=@id";
+                SqlCommand cmd = new SqlCommand(query, conn);
+                cmd.Parameters.AddWithValue("@tgl", dateTimePicker1.Value);
+                cmd.Parameters.AddWithValue("@waktu", comboBox1.Text);
+                cmd.Parameters.AddWithValue("@kuota", textBox1.Text);
+                cmd.Parameters.AddWithValue("@id", id);
+
+                conn.Open();
+                cmd.ExecuteNonQuery();
+                MessageBox.Show("Data berhasil diupdate!");
+
+                tampilData(); // Refresh grid
+            }
         }
 
         private void button3_Click(object sender, EventArgs e)
