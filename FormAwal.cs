@@ -1,13 +1,14 @@
 using Microsoft.Data.SqlClient;
+using System;
+using System.Data;
+using System.Windows.Forms;
+using static System.Collections.Specialized.BitVector32;
 
 namespace UCP_1_Revisi
 {
     public partial class FormAwal : Form
     {
-        string koneksi =
-            "Data Source=DEREK-PC\\DEREKGANTENG;" +
-            "Initial Catalog=db_vaksin;" +
-            "Integrated Security=True; TrustServerCertificate=True;";
+        string Koneksi = "Server=localhost;Database=db_vaksin;User Id=derek;Password=123;Encrypt=True;TrustServerCertificate=True;";
 
         public FormAwal()
         {
@@ -17,56 +18,49 @@ namespace UCP_1_Revisi
 
         private void textBox2_TextChanged(object sender, EventArgs e)
         {
-
+            // Biarkan kosong
         }
 
         private void btnDaftar_Click(object sender, EventArgs e)
         {
-            SqlConnection conn =
-            new SqlConnection(koneksi);
-
             FormSignUp daftar = new FormSignUp();
             daftar.Show();
-
             this.Hide();
         }
 
         private void btnLogin_Click(object sender, EventArgs e)
         {
-            using (SqlConnection conn = new SqlConnection(koneksi))
+            using (SqlConnection conn = new SqlConnection(Koneksi))
             {
                 try
                 {
-                    // Query untuk mengambil role berdasarkan username dan password
-                    string query = "SELECT role FROM users WHERE username=@username AND password=@password";
-                    SqlCommand cmd = new SqlCommand(query, conn);
-
-                    // Sesuaikan 'textBox1' dan 'textBox2' dengan nama Name di Properties
+                    SqlCommand cmd = new SqlCommand("sp_Login", conn);
+                    cmd.CommandType = CommandType.StoredProcedure;
                     cmd.Parameters.AddWithValue("@username", textBox1.Text);
                     cmd.Parameters.AddWithValue("@password", textBox2.Text);
 
                     conn.Open();
-                    object result = cmd.ExecuteScalar();
+                    SqlDataReader reader = cmd.ExecuteReader();
 
-                    if (result != null)
+                    if (reader.Read())
                     {
-                        string role = result.ToString().Trim();
-                        MessageBox.Show("Role yang terbaca:'" + role + "'");
+                        string role = reader["role"].ToString();
 
-                        // Pengecekan Hak Akses
+                        // ===== SIMPAN SESSION =====
+                        Session.UserId = Convert.ToInt32(reader["user_id"]);
+                        Session.Username = reader["username"].ToString();
+                        Session.Role = role;
+
                         if (string.Equals(role, "Admin", StringComparison.OrdinalIgnoreCase))
                         {
-                            // MEMBUKA FORM JADWAL (ADMIN)
-                            FormAdmin adminForm = new FormAdmin();
+                            FormJadwalVaksin adminForm = new FormJadwalVaksin();
                             adminForm.Show();
                         }
                         else
                         {
-                            // MEMBUKA FORM BOOKING (USER)
                             FormBooking bookingForm = new FormBooking();
                             bookingForm.Show();
                         }
-
                         this.Hide();
                     }
                     else
@@ -79,6 +73,10 @@ namespace UCP_1_Revisi
                     MessageBox.Show("Error: " + ex.Message);
                 }
             }
+        }
+
+        private void FormAwal_Load(object sender, EventArgs e)
+        {
         }
     }
 }
